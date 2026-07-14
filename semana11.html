@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Semana 11 — Brandon Kody Santillan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#050810;--u1:#00e5ff;--u2:#7c3aed;--u3:#10b981;--u4:#f59e0b;--text:#e2e8f0;--muted:#64748b;--border:rgba(0,229,255,0.11);--card-bg:rgba(13,17,23,0.72);--header-bg:rgba(5,8,16,0.9);}
+    [data-theme="light"]{--bg:#f0f4f8;--u1:#0284c7;--u2:#7c3aed;--u3:#059669;--u4:#d97706;--text:#1e293b;--muted:#64748b;--border:rgba(2,132,199,0.18);--card-bg:rgba(255,255,255,0.85);--header-bg:rgba(240,244,248,0.92);}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background 0.3s,color 0.3s;}
+    .bg-layer{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 70% 50% at 0% 0%,rgba(0,229,255,.07) 0%,transparent 60%),radial-gradient(ellipse 60% 60% at 100% 100%,rgba(124,58,237,.06) 0%,transparent 60%);}
+    [data-theme="light"] .bg-layer{opacity:0.35;}
+    .grid-overlay{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(0,229,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.018) 1px,transparent 1px);background-size:60px 60px;}
+    [data-theme="light"] .grid-overlay{opacity:0.3;}
+    header{position:sticky;top:0;z-index:100;background:var(--header-bg);backdrop-filter:blur(22px);border-bottom:1px solid var(--border);padding:0 32px;}
+    nav{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:14px;height:58px;}
+    .back-btn{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--muted);font-size:.7rem;letter-spacing:.09em;transition:color .2s;}
+    .back-btn:hover{color:var(--u1);}
+    .nav-sep{color:var(--muted);opacity:.3;}
+    .nav-crumb{font-size:.7rem;color:var(--muted);}
+    .nav-crumb span{color:var(--u1);}
+    .nav-logo-img{width:30px;height:30px;border-radius:50%;object-fit:cover;border:1px solid var(--border);margin-left:auto;}
+    .nav-right{margin-left:8px;display:flex;align-items:center;gap:10px;}
+    .week-badge{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;background:rgba(0,229,255,.07);border:1px solid rgba(0,229,255,.2);color:var(--u1);padding:4px 11px;border-radius:20px;}
+    .theme-btn{background:var(--card-bg);border:1px solid var(--border);border-radius:50px;padding:4px 11px;color:var(--muted);font-family:'Poppins',sans-serif;font-size:.65rem;cursor:pointer;transition:all .2s;}
+    .theme-btn:hover{color:var(--u1);}
+    .page-hero{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:65px 32px 44px;border-bottom:1px solid var(--border);}
+    .hero-meta{display:flex;align-items:center;gap:10px;margin-bottom:18px;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+    .unit-tag{font-weight:700;padding:3px 9px;border-radius:4px;}
+    .hero-top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+    .hero-text{flex:1;}
+    .page-title{font-family:'Poppins',sans-serif;font-size:clamp(1.7rem,4vw,2.8rem);font-weight:800;line-height:1.1;letter-spacing:-.02em;margin-bottom:14px;}
+    .page-title .hl{color:var(--u1);}
+    .page-desc{font-size:.82rem;color:var(--muted);max-width:580px;line-height:1.8;}
+    .hero-fecha{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:12px 18px;font-size:.7rem;flex-shrink:0;text-align:center;}
+    .fecha-label{color:var(--muted);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;}
+    .fecha-val{color:var(--u1);font-weight:500;}
+    main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:44px 32px 80px;display:grid;grid-template-columns:1fr 300px;gap:28px;align-items:start;}
+    .section-label{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--u1);margin-bottom:13px;display:flex;align-items:center;gap:8px;}
+    .section-label::after{content:'';flex:0 0 26px;height:1px;background:var(--u1);opacity:.3;}
+    .section-title{font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;margin-bottom:12px;}
+    .content-box{background:var(--card-bg);border:1px solid rgba(255,255,255,.055);border-radius:12px;padding:22px;font-size:.8rem;color:rgba(226,232,240,.85);line-height:1.8;}
+    [data-theme="light"] .content-box{border-color:rgba(0,0,0,.08);color:var(--text);}
+    .content-box p+p{margin-top:10px;}
+    .content-box ul{padding-left:0;list-style:none;margin-top:10px;}
+    .content-box ul li{padding:5px 0 5px 18px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);font-size:.78rem;}
+    [data-theme="light"] .content-box ul li{border-bottom-color:rgba(0,0,0,.05);}
+    .content-box ul li:last-child{border-bottom:none;}
+    .content-box ul li::before{content:'▸';position:absolute;left:0;color:var(--u1);font-size:.65rem;}
+    .content-section{margin-bottom:32px;}
+    .file-item{display:flex;align-items:center;gap:14px;background:var(--card-bg);border:1px solid rgba(255,255,255,.055);border-radius:10px;padding:15px 18px;margin-bottom:10px;color:inherit;transition:all .25s;position:relative;overflow:hidden;text-decoration:none;}
+    [data-theme="light"] .file-item{border-color:rgba(0,0,0,.08);}
+    .file-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--u1);opacity:0;transition:opacity .25s;}
+    .file-item:hover{border-color:rgba(0,229,255,.2);transform:translateX(4px);}
+    .file-item:hover::before{opacity:1;}
+    .file-icon{width:36px;height:36px;background:rgba(0,229,255,.07);border:1px solid rgba(0,229,255,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;}
+    .file-thumb{width:36px;height:36px;object-fit:cover;border-radius:8px;border:1px solid rgba(0,229,255,.15);flex-shrink:0;cursor:pointer;transition:transform .2s;}
+    .file-thumb:hover{transform:scale(1.08);}
+    .file-info{flex:1;min-width:0;}
+    .file-name{font-size:.8rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .file-meta{font-size:.62rem;color:var(--muted);margin-top:2px;}
+    .file-actions{display:flex;gap:8px;flex-shrink:0;}
+    .btn-view,.btn-dl{font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;padding:5px 11px;border-radius:6px;cursor:pointer;transition:all .2s;text-decoration:none;border:1px solid;}
+    .btn-view{color:var(--u1);border-color:rgba(0,229,255,.3);background:rgba(0,229,255,.06);}
+    .btn-view:hover{background:rgba(0,229,255,.15);}
+    .btn-dl{color:var(--u3);border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.06);}
+    .btn-dl:hover{background:rgba(16,185,129,.15);}
+    .pdf-viewer-container{margin-top:12px;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#1a1a2e;}
+    .pdf-viewer-container iframe{width:100%;height:580px;border:none;display:block;}
+    .pdf-viewer-header{padding:10px 16px;background:rgba(0,229,255,.05);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-size:.65rem;color:var(--muted);}
+    .upload-section{margin-top:14px;}
+    .upload-zone{border:2px dashed rgba(0,229,255,.2);border-radius:12px;padding:28px;text-align:center;cursor:pointer;transition:all .25s;background:rgba(0,229,255,.02);}
+    .upload-zone:hover,.upload-zone.dragover{border-color:rgba(0,229,255,.5);background:rgba(0,229,255,.05);}
+    .upload-icon{font-size:1.8rem;margin-bottom:10px;}
+    .upload-text{font-size:.78rem;color:var(--muted);margin-bottom:6px;}
+    .upload-sub{font-size:.65rem;color:var(--muted);opacity:.6;}
+    .upload-btn-z{margin-top:14px;padding:9px 22px;background:linear-gradient(135deg,var(--u2),#6d28d9);border:none;border-radius:8px;color:white;font-family:'Poppins',sans-serif;font-size:.72rem;letter-spacing:.08em;cursor:pointer;transition:all .25s;}
+    .upload-btn-z:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(124,58,237,.4);}
+    .upload-item{display:flex;align-items:center;gap:10px;background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.18);border-radius:8px;padding:10px 14px;margin-bottom:8px;font-size:.75rem;}
+    .upload-item-name{flex:1;color:var(--u3);}
+    .upload-item-size{font-size:.62rem;color:var(--muted);}
+    .upload-remove{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.8rem;padding:2px 6px;transition:color .2s;}
+    .upload-remove:hover{color:#fca5a5;}
+    .readonly-notice{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.18);border-radius:9px;padding:12px 16px;font-size:.72rem;color:rgba(253,230,138,.8);display:flex;align-items:center;gap:8px;margin-top:14px;}
+    .sidebar-card{background:var(--card-bg);border:1px solid rgba(255,255,255,.055);border-radius:12px;padding:22px;margin-bottom:14px;}
+    [data-theme="light"] .sidebar-card{border-color:rgba(0,0,0,.08);}
+    .sidebar-label{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;}
+    .info-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.72rem;}
+    [data-theme="light"] .info-row{border-bottom-color:rgba(0,0,0,.05);}
+    .info-row:last-child{border-bottom:none;}
+    .info-key{color:var(--muted);}
+    .info-val{color:var(--text);font-weight:500;}
+    .info-val.accent{color:var(--u1);}
+    .info-val.green{color:var(--u3);}
+    .week-nav{display:flex;gap:7px;}
+    .wnav-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;text-decoration:none;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:9px;font-size:.68rem;color:var(--muted);transition:all .2s;}
+    .wnav-btn:hover{border-color:rgba(0,229,255,.25);color:var(--u1);}
+    .wnav-btn.disabled{opacity:.3;pointer-events:none;}
+    .index-list{list-style:none;padding:0;}
+    .index-list li a{display:flex;align-items:center;gap:8px;padding:7px 0;font-size:.72rem;color:var(--muted);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.04);transition:color .2s;}
+    [data-theme="light"] .index-list li a{border-bottom-color:rgba(0,0,0,.05);}
+    .index-list li:last-child a{border-bottom:none;}
+    .index-list li a:hover{color:var(--u1);}
+    .index-list li a::before{content:'#';color:var(--u1);font-size:.6rem;opacity:.6;}
+    .next-tema{background:rgba(0,229,255,.04);border:1px solid rgba(0,229,255,.12);border-radius:10px;padding:14px 16px;}
+    .next-label{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+    .next-title{font-size:.75rem;color:var(--u1);line-height:1.5;}
+    .fab{position:fixed;bottom:28px;right:28px;z-index:200;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--u2),#6d28d9);border:none;color:white;font-size:1.1rem;cursor:pointer;box-shadow:0 6px 22px rgba(124,58,237,.5);transition:all .3s;display:flex;align-items:center;justify-content:center;text-decoration:none;position:fixed;}
+    .fab:hover{transform:translateY(-4px) scale(1.08);box-shadow:0 10px 28px rgba(124,58,237,.6);}
+    .fab-tooltip{position:absolute;right:56px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:5px 12px;font-size:.65rem;color:var(--text);white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;font-family:'Poppins',sans-serif;}
+    .fab:hover .fab-tooltip{opacity:1;}
+    .empty-placeholder{text-align:center;padding:40px 20px;color:var(--muted);font-size:.78rem;border:2px dashed rgba(255,255,255,.06);border-radius:12px;}
+    [data-theme="light"] .empty-placeholder{border-color:rgba(0,0,0,.08);}
+    .empty-placeholder .ep-icon{font-size:2rem;margin-bottom:12px;opacity:.4;}
+    @media(max-width:820px){main{grid-template-columns:1fr;}.sidebar-col{order:-1;}}
+    @media(max-width:580px){.page-hero{padding:48px 18px 30px;}main{padding:28px 18px 60px;}header{padding:0 18px;}.fab{bottom:18px;right:18px;}}
+</style>
+</head>
+<body>
+  <div class="bg-layer"></div>
+  <div class="grid-overlay"></div>
+
+  <header>
+    <nav>
+      <a href="portafolio.html" class="back-btn">← Volver</a>
+      <span class="nav-sep">/</span>
+      <span class="nav-crumb">Portafolio › <span>Semana 11</span></span>
+      <img src="logo.jpg" alt="UPLA" class="nav-logo-img">
+      <div class="nav-right">
+        <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+        <div class="week-badge">Semana 11 / 16</div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="page-hero">
+    <div class="hero-meta">
+      <div class="unit-tag" style="background:var(--u3);color:#000;">UNIDAD III</div>
+      &nbsp;Arquitectura de Software
+    </div>
+    <div class="hero-top">
+      <div class="hero-text">
+        <h1 class="page-title"><span class="hl">Semana 11</span><br>Contratos de Integración, Gestión de APIs y Resiliencia</h1>
+        <p class="page-desc">Arquitectura robusta para el Sistema de Certificados EPISC-UPLA: APIs Design-First con OpenAPI, GraphQL, versionado de interfaces y patrones de resiliencia con Resilience4j.</p>
+      </div>
+      <div class="hero-fecha">
+        <div class="fecha-label">Fecha entrega</div>
+        <div class="fecha-val">24 de junio de 2026</div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <div class="content-col">
+
+      <div class="content-section" id="sec-resumen">
+        <div class="section-label">Resumen de la semana</div>
+        <div class="section-title">¿Qué vimos esta semana?</div>
+        <div class="content-box">
+          <p>Aplicado al Sistema de Certificados EPISC-UPLA, con sus 5 perfiles conectados (Estudiante, Secretaria, Microservicios Spring Boot, Asesor y Coordinador):</p>
+          <p style="margin-top:10px;"><strong>1. Diseño de APIs RESTful guiado por contratos (Design-First):</strong> Definición completa del contrato OpenAPI 3.x antes de programar, generación automática de Stubs, DTOs y clientes Feign con SpringDoc-OpenAPI y Maven, y códigos HTTP usados en el sistema (200, 201, 400, 404, 409, 500).</p>
+          <p style="margin-top:10px;"><strong>2. Agregación de datos distribuidos con GraphQL:</strong> Solución a los problemas de Over-fetching y Under-fetching de REST mediante @QueryMapping, @SchemaMapping, @MutationMapping y @SubscriptionMapping con Spring for GraphQL, aplicado al dashboard del Coordinador y panel del Estudiante.</p>
+          <p style="margin-top:10px;"><strong>3. Estrategias de versionado de interfaces:</strong> Versionado por rutas explícitas, por parámetro de consulta y por cabecera personalizada (X-API-Version), junto con el ciclo de vida completo de una API en producción (deprecación, sunset policy, coexistencia y desconexión).</p>
+          <p style="margin-top:10px;"><strong>4. Patrones de resiliencia con Resilience4j:</strong> Circuit Breaker (disyuntor) para fallos en generación de PDF, Rate Limiter para limitar peticiones, Retries con backoff exponencial, y arquitectura defensiva en cadena para endpoints críticos como la emisión de certificados (CU08).</p>
+        </div>
+      </div>
+
+      <div class="content-section" id="sec-actividad">
+        <div class="section-label">Actividad / Tarea</div>
+        <div class="section-title">Infografía — Contratos, APIs y Resiliencia aplicados al Sistema de Certificados</div>
+        <div class="content-box">
+          <p>Se elaboró una infografía completa aplicando los conceptos de diseño de contratos, gestión de APIs y resiliencia directamente al Sistema de Control y Seguimiento de Trámite de Certificados de Talleres Técnicos de la EPISC-UPLA, junto con el informe correspondiente y el sistema desplegado en producción.</p>
+          <p style="margin-top:10px;"><strong>Link del sistema:</strong> <a href="https://kodysantillan.github.io/ARQUITECTURA-DE-SOFTWARE---SEMANA-8/" target="_blank" style="color:var(--u1);">https://kodysantillan.github.io/ARQUITECTURA-DE-SOFTWARE---SEMANA-8/</a></p>
+        </div>
+      </div>
+
+      <div class="content-section" id="sec-archivos">
+        <div class="section-label">Archivos entregados</div>
+        <div class="section-title">Documentos de la semana</div>
+
+        <div class="file-item">
+          <img src="archivos/semana11/S11.png" alt="S11.png" class="file-thumb" loading="lazy" onclick="window.open(this.src,'_blank')">
+          <div class="file-info">
+            <div class="file-name">S11.png</div>
+            <div class="file-meta">Imagen · Contratos de Integración, Gestión de APIs y Resiliencia en Java</div>
+          </div>
+          <div class="file-actions">
+            <a href="archivos/semana11/S11.png" class="btn-view" target="_blank">👁 Ver</a>
+            <a href="archivos/semana11/S11.png" class="btn-dl" download="S11.png">↓ Descargar</a>
+          </div>
+        </div>
+
+        <div class="file-item">
+          <div class="file-icon">📄</div>
+          <div class="file-info">
+            <div class="file-name">INFORME.pdf</div>
+            <div class="file-meta">PDF · Informe de la semana 11</div>
+          </div>
+          <div class="file-actions">
+            <a href="archivos/semana11/INFORME.pdf" class="btn-view" target="_blank" onclick="openPDF('archivos/semana11/INFORME.pdf','INFORME.pdf');return false;">👁 Ver</a>
+            <a href="archivos/semana11/INFORME.pdf" class="btn-dl" download="INFORME.pdf">↓ Descargar</a>
+          </div>
+        </div>
+
+        <div class="file-item" style="cursor:default;">
+          <div class="file-icon">🌐</div>
+          <div class="file-info">
+            <div class="file-name">SISTEMA DE CONTROL Y SEGUIMIENTO DE TRAMITE DE CERTIFICADOS DE TALLERES TECNICOS — EPISC UPLA</div>
+            <div class="file-meta">Sistema web · Desplegado en GitHub Pages</div>
+          </div>
+          <div class="file-actions">
+            <a href="https://kodysantillan.github.io/ARQUITECTURA-DE-SOFTWARE---SEMANA-8/" class="btn-view" target="_blank">🔗 Abrir</a>
+          </div>
+        </div>
+
+        <div class="pdf-viewer-container" id="pdfViewer" style="display:none;">
+          <div class="pdf-viewer-header">
+            <span id="pdfViewerName">📄 Documento</span>
+            <button onclick="closePDF()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:.75rem;">✕ Cerrar</button>
+          </div>
+          <iframe id="pdfFrame" src=""></iframe>
+        </div>
+
+        <div class="upload-section" id="uploadSection" style="display:none;">
+          <div class="section-label" style="margin-top:20px;">Agregar archivo</div>
+          <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="dropFile(event)">
+            <div class="upload-icon">📎</div>
+            <div class="upload-text">Arrastra un archivo aquí o haz clic para seleccionar</div>
+            <div class="upload-sub">PDF, imágenes, documentos</div>
+            <button class="upload-btn-z" onclick="event.stopPropagation();document.getElementById('fileInput').click()">Seleccionar archivo</button>
+          </div>
+          <input type="file" id="fileInput" accept=".pdf,.png,.jpg,.jpeg,.docx,.xlsx" onchange="handleFile(this)">
+          <div id="uploadList"></div>
+        </div>
+        <div class="readonly-notice" id="readonlyNotice">🔒 Solo lectura. Únicamente el propietario puede agregar archivos.</div>
+      </div>
+
+    </div>
+
+    <div class="sidebar-col">
+      <div class="sidebar-card">
+        <div class="sidebar-label">Información</div>
+        <div class="info-row"><span class="info-key">Semana</span><span class="info-val accent">11 de 16</span></div>
+        <div class="info-row"><span class="info-key">Unidad</span><span class="info-val">Unidad III</span></div>
+        <div class="info-row"><span class="info-key">Estado</span><span class="info-val green">✓ Entregado</span></div>
+        <div class="info-row"><span class="info-key">Archivos</span><span class="info-val">2 archivos + link</span></div>
+        <div class="info-row"><span class="info-key">Fecha</span><span class="info-val">Mayo 2026</span></div>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-label">Índice rápido</div>
+        <ul class="index-list">
+          <li><a href="#sec-resumen">Resumen de la semana</a></li>
+          <li><a href="#sec-actividad">Actividad / Tarea</a></li>
+          <li><a href="#sec-archivos">Archivos entregados</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-label">Navegación</div>
+        <div class="week-nav">
+          <a href="semana10.html" class="wnav-btn">← Anterior</a>
+          <a href="semana12.html" class="wnav-btn">Siguiente →</a>
+        </div>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="next-tema">
+          <div class="next-label">▶ Siguiente tema</div>
+          <div class="next-title">Implementación y Validación de la Comunicación Arquitectónica</div>
+        </div>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-label">Unidad III — Temario</div>
+        <div class="content-box" style="padding:0;background:transparent;border:none;">
+          <ul>
+            <li><a href="semana9.html" style="color:var(--u3);text-decoration:none;">Sem. 9 — Patrones Arquitectónicos ✓</a></li>
+            <li><a href="semana10.html" style="color:var(--u3);text-decoration:none;">Sem. 10 — Sistemas Distribuidos ✓</a></li>
+            <li style="color:var(--u1);">Sem. 11 — Contratos de Integración y APIs ◀</li>
+            <li><a href="semana12.html" style="color:var(--u3);text-decoration:none;">Sem. 12 — Comunicación Arquitectónica ✓</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <a href="portafolio.html" class="fab" title="Ir al inicio">
+    <span class="fab-tooltip">Ir al inicio</span>🏠
+  </a>
+
+  <script>
+    const role=sessionStorage.getItem('role');
+    if(!role)location.href='index.html';
+    if(role==='owner'){document.getElementById('uploadSection').style.display='block';document.getElementById('readonlyNotice').style.display='none';}
+    function toggleTheme(){const html=document.documentElement;const isDark=html.getAttribute('data-theme')==='dark';html.setAttribute('data-theme',isDark?'light':'dark');document.getElementById('themeBtn').textContent=isDark?'☀️':'🌙';localStorage.setItem('theme',isDark?'light':'dark');}
+    const saved=localStorage.getItem('theme');if(saved){document.documentElement.setAttribute('data-theme',saved);document.getElementById('themeBtn').textContent=saved==='light'?'☀️':'🌙';}
+    function openPDF(url,name,btn){event.preventDefault();const viewer=document.getElementById('pdfViewer');const frame=document.getElementById('pdfFrame');if(frame.src&&frame.src.includes(url.split('/').pop())&&viewer.style.display!=='none'){closePDF();return;}frame.src=url;document.getElementById('pdfViewerName').textContent='📄 '+name;viewer.style.display='block';viewer.scrollIntoView({behavior:'smooth',block:'nearest'});}
+    function closePDF(){document.getElementById('pdfViewer').style.display='none';document.getElementById('pdfFrame').src='';}
+    let uploadedFiles=[];
+    function handleFile(input){if(input.files[0])addFile(input.files[0]);}
+    function dropFile(e){e.preventDefault();dragLeave(e);if(e.dataTransfer.files[0])addFile(e.dataTransfer.files[0]);}
+    function dragOver(e){e.preventDefault();document.getElementById('uploadZone').classList.add('dragover');}
+    function dragLeave(e){document.getElementById('uploadZone').classList.remove('dragover');}
+    function addFile(file){const id=Date.now();uploadedFiles.push({id,file});renderUploadList();const url=URL.createObjectURL(file);const item=document.createElement('div');item.className='file-item';item.id='uploaded-'+id;item.innerHTML=`<div class="file-icon">📄</div><div class="file-info"><div class="file-name">${file.name}</div><div class="file-meta">Subido ahora</div></div><div class="file-actions"><a href="${url}" class="btn-view" onclick="openPDF('${url}','${file.name}',this)">👁 Ver</a><a href="${url}" class="btn-dl" download="${file.name}">↓ Descargar</a></div>`;document.getElementById('uploadSection').before(item);}
+    function renderUploadList(){document.getElementById('uploadList').innerHTML=uploadedFiles.map(f=>`<div class="upload-item"><span class="upload-item-name">✓ ${f.file.name}</span><span class="upload-item-size">${(f.file.size/1024).toFixed(1)} KB</span><button class="upload-remove" onclick="removeFile(${f.id})">✕</button></div>`).join('');}
+    function removeFile(id){uploadedFiles=uploadedFiles.filter(f=>f.id!==id);const el=document.getElementById('uploaded-'+id);if(el)el.remove();renderUploadList();}
+</script>
+</body>
+</html>

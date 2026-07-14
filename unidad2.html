@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unidad II — Arquitectura de Software | Kody Santillan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#050810;--u1:#00e5ff;--u2:#7c3aed;--u3:#10b981;--u4:#f59e0b;--uc:#7c3aed;--text:#e2e8f0;--muted:#64748b;--border:rgba(124,58,237,0.15);--card-bg:rgba(13,17,23,0.72);--header-bg:rgba(5,8,16,0.9);}
+    [data-theme="light"]{--bg:#f0f4f8;--u1:#0284c7;--u2:#7c3aed;--u3:#059669;--u4:#d97706;--uc:#7c3aed;--text:#1e293b;--muted:#64748b;--border:rgba(124,58,237,0.2);--card-bg:rgba(255,255,255,0.85);--header-bg:rgba(240,244,248,0.92);}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s;}
+    .bg-layer{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 70% 50% at 0% 0%,rgba(124,58,237,.08) 0%,transparent 60%),radial-gradient(ellipse 60% 60% at 100% 100%,rgba(0,229,255,.05) 0%,transparent 60%);}
+    [data-theme="light"] .bg-layer{opacity:.35;}
+    .grid-overlay{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(124,58,237,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(124,58,237,.018) 1px,transparent 1px);background-size:60px 60px;}
+    header{position:sticky;top:0;z-index:100;background:var(--header-bg);backdrop-filter:blur(22px);border-bottom:1px solid var(--border);padding:0 32px;}
+    nav{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:14px;height:58px;}
+    .back-btn{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--muted);font-size:.7rem;letter-spacing:.09em;transition:color .2s;}
+    .back-btn:hover{color:var(--uc);}
+    .nav-sep{color:var(--muted);opacity:.3;}
+    .nav-crumb{font-size:.7rem;color:var(--muted);}
+    .nav-crumb span{color:var(--uc);}
+    .nav-logo-img{width:30px;height:30px;border-radius:50%;object-fit:cover;border:1px solid var(--border);margin-left:auto;}
+    .nav-right{margin-left:8px;display:flex;align-items:center;gap:10px;}
+    .unit-badge{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;background:rgba(124,58,237,.07);border:1px solid rgba(124,58,237,.25);color:var(--uc);padding:4px 11px;border-radius:20px;}
+    .theme-btn{background:var(--card-bg);border:1px solid var(--border);border-radius:50px;padding:4px 11px;color:var(--muted);font-family:'Poppins',sans-serif;font-size:.65rem;cursor:pointer;transition:all .2s;}
+    .theme-btn:hover{color:var(--uc);}
+    .unit-hero{position:relative;z-index:1;overflow:hidden;background:var(--card-bg);border-bottom:1px solid var(--border);}
+    .unit-hero-inner{max-width:1100px;margin:0 auto;padding:56px 32px 48px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;}
+    .hero-text-block{flex:1;min-width:280px;}
+    .hero-breadcrumb{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .hero-breadcrumb span{color:var(--uc);}
+    .unit-tag-big{display:inline-block;font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:5px 14px;border-radius:6px;background:var(--uc);color:#fff;margin-bottom:16px;}
+    .hero-title-big{font-family:'Poppins',sans-serif;font-size:clamp(1.8rem,4vw,2.9rem);font-weight:800;line-height:1.1;letter-spacing:-.03em;margin-bottom:14px;}
+    .hero-title-big .hl{color:var(--uc);}
+    .hero-desc-unit{font-size:.8rem;color:var(--muted);line-height:1.8;max-width:480px;margin-bottom:22px;}
+    .hero-chips{display:flex;flex-wrap:wrap;gap:8px;}
+    .hero-chip{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:4px 11px;border-radius:20px;border:1px solid rgba(124,58,237,.25);color:var(--uc);background:rgba(124,58,237,.06);}
+    .hero-svg-wrap{flex-shrink:0;width:280px;height:200px;position:relative;}
+    .unit-main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:44px 32px 80px;}
+    .section-label{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--uc);display:flex;align-items:center;gap:8px;margin-bottom:22px;}
+    .section-label::after{content:'';flex:0 0 24px;height:1px;background:var(--uc);opacity:.35;}
+    .weeks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:48px;}
+    .week-card{background:var(--card-bg);border:1px solid rgba(255,255,255,.055);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:11px;text-decoration:none;color:inherit;transition:all .3s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden;}
+    [data-theme="light"] .week-card{border-color:rgba(0,0,0,.08);}
+    .week-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--uc),transparent);opacity:0;transition:opacity .3s;}
+    .week-card:hover{transform:translateY(-4px);border-color:rgba(124,58,237,.25);box-shadow:0 18px 38px rgba(0,0,0,.2);}
+    .week-card:hover::before{opacity:1;}
+    .week-card.coming{opacity:.5;cursor:default;pointer-events:none;}
+    .coming-badge{position:absolute;top:12px;right:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:3px 9px;font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+    .week-top{display:flex;align-items:center;justify-content:space-between;}
+    .week-num-badge{font-size:.58rem;letter-spacing:.13em;text-transform:uppercase;padding:3px 9px;border-radius:20px;border:1px solid rgba(124,58,237,.3);background:rgba(124,58,237,.06);color:var(--uc);}
+    .week-status{font-size:.62rem;letter-spacing:.07em;}
+    .status-done{color:#10b981;}.status-soon{color:var(--muted);opacity:.6;}
+    .week-title{font-family:'Poppins',sans-serif;font-size:.92rem;font-weight:700;line-height:1.3;}
+    .week-desc{font-size:.7rem;color:var(--muted);line-height:1.6;}
+    .week-footer{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:11px;border-top:1px solid rgba(255,255,255,.04);}
+    [data-theme="light"] .week-footer{border-top-color:rgba(0,0,0,.06);}
+    .week-files{font-size:.62rem;color:var(--muted);display:flex;align-items:center;gap:6px;}
+    .dot{width:6px;height:6px;border-radius:50%;background:#10b981;}
+    .dot.empty{background:var(--muted);opacity:.25;}
+    .week-arrow{font-size:.75rem;color:var(--muted);transition:transform .2s,color .2s;}
+    .week-card:hover .week-arrow{transform:translateX(4px);color:var(--uc);}
+    .unit-nav{display:flex;align-items:center;justify-content:space-between;padding-top:24px;border-top:1px solid var(--border);}
+    .unav-btn{display:flex;align-items:center;gap:8px;text-decoration:none;background:var(--card-bg);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:11px 18px;font-size:.72rem;color:var(--muted);transition:all .25s;}
+    [data-theme="light"] .unav-btn{border-color:rgba(0,0,0,.08);}
+    .unav-btn:hover{border-color:rgba(124,58,237,.3);color:var(--uc);}
+    .fab{position:fixed;bottom:28px;right:28px;z-index:200;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:white;font-size:1.1rem;box-shadow:0 6px 22px rgba(124,58,237,.5);transition:all .3s;display:flex;align-items:center;justify-content:center;text-decoration:none;}
+    .fab:hover{transform:translateY(-4px) scale(1.08);}
+    .fab-tooltip{position:absolute;right:56px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:5px 12px;font-size:.65rem;color:var(--text);white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;font-family:'Poppins',sans-serif;}
+    .fab:hover .fab-tooltip{opacity:1;}
+    @media(max-width:640px){.unit-hero-inner{padding:40px 18px 32px;}.hero-svg-wrap{width:100%;height:150px;}.unit-main{padding:32px 18px 60px;}header{padding:0 18px;}}
+  </style>
+</head>
+<body>
+  <div class="bg-layer"></div>
+  <div class="grid-overlay"></div>
+  <header>
+    <nav>
+      <a href="portafolio.html" class="back-btn">← Volver</a>
+      <span class="nav-sep">/</span>
+      <span class="nav-crumb">Portafolio › <span>Unidad II</span></span>
+      <img src="logo.jpg" alt="UPLA" class="nav-logo-img">
+      <div class="nav-right">
+        <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+        <div class="unit-badge">Unidad II / IV</div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO SVG UNIDAD II: Capas de arquitectura / vistas -->
+  <div class="unit-hero">
+    <div class="unit-hero-inner">
+      <div class="hero-text-block">
+        <div class="hero-breadcrumb">Arquitectura de Software · <span>2026</span></div>
+        <div class="unit-tag-big">Unidad II</div>
+        <h1 class="hero-title-big"><span class="hl">Diseño</span><br>y Modelado</h1>
+        <p class="hero-desc-unit">Vistas arquitectónicas, atributos de calidad, tácticas de diseño y toma de decisiones para sistemas robustos.</p>
+        <div class="hero-chips">
+          <span class="hero-chip">Semanas 5–8</span>
+          <span class="hero-chip">4 Actividades</span>
+          <span class="hero-chip">Unidad II</span>
+        </div>
+      </div>
+      <!-- SVG: Capas apiladas tipo arquitectura en layers -->
+      <div class="hero-svg-wrap">
+        <svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+          <defs>
+            <radialGradient id="glow2" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="blur2"><feGaussianBlur stdDeviation="4"/></filter>
+          </defs>
+          <ellipse cx="140" cy="110" rx="110" ry="70" fill="url(#glow2)" filter="url(#blur2)"/>
+          <!-- Capas isométricas -->
+          <!-- Capa 4 (base) -->
+          <ellipse cx="140" cy="160" rx="95" ry="18" fill="rgba(124,58,237,0.06)" stroke="#7c3aed" stroke-width="1" stroke-opacity="0.3"/>
+          <text x="140" y="164" text-anchor="middle" font-size="5" fill="#7c3aed" fill-opacity="0.5" font-family="monospace">INFRASTRUCTURE</text>
+          <!-- Capa 3 -->
+          <ellipse cx="140" cy="135" rx="80" ry="15" fill="rgba(124,58,237,0.08)" stroke="#7c3aed" stroke-width="1" stroke-opacity="0.4"/>
+          <text x="140" y="139" text-anchor="middle" font-size="5" fill="#7c3aed" fill-opacity="0.6" font-family="monospace">DATA LAYER</text>
+          <!-- Capa 2 -->
+          <ellipse cx="140" cy="110" rx="65" ry="12" fill="rgba(124,58,237,0.1)" stroke="#7c3aed" stroke-width="1.2" stroke-opacity="0.5"/>
+          <text x="140" y="114" text-anchor="middle" font-size="5" fill="#7c3aed" fill-opacity="0.7" font-family="monospace">BUSINESS LOGIC</text>
+          <!-- Capa 1 (tope) -->
+          <ellipse cx="140" cy="85" rx="50" ry="10" fill="rgba(124,58,237,0.15)" stroke="#7c3aed" stroke-width="1.5" stroke-opacity="0.7"/>
+          <text x="140" y="89" text-anchor="middle" font-size="5" fill="#c4b5fd" fill-opacity="0.9" font-family="monospace">PRESENTATION</text>
+          <!-- Líneas verticales conectoras de capas -->
+          <line x1="90" y1="85" x2="60" y2="160" stroke="#7c3aed" stroke-width="0.5" stroke-opacity="0.2"/>
+          <line x1="190" y1="85" x2="220" y2="160" stroke="#7c3aed" stroke-width="0.5" stroke-opacity="0.2"/>
+          <!-- Nodo flecha arriba: flujo de datos -->
+          <line x1="140" y1="72" x2="140" y2="30" stroke="#00e5ff" stroke-width="1" stroke-opacity="0.4" stroke-dasharray="3,3"/>
+          <polygon points="136,30 144,30 140,22" fill="#00e5ff" fill-opacity="0.5"/>
+          <text x="150" y="52" font-size="4.5" fill="#00e5ff" fill-opacity="0.5" font-family="monospace">REQUEST</text>
+          <!-- Puntos decorativos -->
+          <circle cx="30" cy="50" r="3" fill="#7c3aed" fill-opacity="0.4">
+            <animate attributeName="opacity" values="0.4;0.9;0.4" dur="2.5s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="250" cy="70" r="2.5" fill="#00e5ff" fill-opacity="0.4">
+            <animate attributeName="opacity" values="0.4;0.9;0.4" dur="3.2s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="20" cy="140" r="2" fill="#10b981" fill-opacity="0.35">
+            <animate attributeName="opacity" values="0.35;0.8;0.35" dur="2s" repeatCount="indefinite"/>
+          </circle>
+          <!-- Hexágono decorativo -->
+          <polygon points="248,20 255,16 262,20 262,28 255,32 248,28" fill="none" stroke="#7c3aed" stroke-width="0.8" stroke-opacity="0.3"/>
+          <polygon points="12,80 19,76 26,80 26,88 19,92 12,88" fill="none" stroke="#00e5ff" stroke-width="0.8" stroke-opacity="0.2"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="unit-main">
+    <div class="section-label">Semanas de la unidad</div>
+    <div class="weeks-grid">
+      <a href="semana5.html" class="week-card">
+        <div class="week-top">
+          <div class="week-num-badge">Semana 5</div>
+          <div class="week-status status-done">✓ Entregado</div>
+        </div>
+        <div class="week-title">Fundamentos de la POO</div>
+        <div class="week-desc">Paradigma orientado a objetos, pilares (encapsulamiento, herencia, polimorfismo, abstracción) y principios SOLID.</div>
+        <div class="week-footer">
+          <div class="week-files"><div class="dot"></div>4 archivos</div>
+          <div class="week-arrow">→</div>
+        </div>
+      </a>
+      <a href="semana6.html" class="week-card">
+        <div class="week-top">
+          <div class="week-num-badge">Semana 6</div>
+          <div class="week-status status-done">✓ Entregado</div>
+        </div>
+        <div class="week-title">Ingeniería de Requerimientos</div>
+        <div class="week-desc">Clasificación de requerimientos, documento ERS (IEEE 830), técnicas de elicitación, modelo en espiral, validación y administración.</div>
+        <div class="week-footer">
+          <div class="week-files"><div class="dot"></div>2 archivos</div>
+          <div class="week-arrow">→</div>
+        </div>
+      </a>
+      <a href="semana7.html" class="week-card">
+        <div class="week-top">
+          <div class="week-num-badge">Semana 7</div>
+          <div class="week-status status-done">✓ Entregado</div>
+        </div>
+        <div class="week-title">Modelado del Sistema y UML mediante la POO</div>
+        <div class="week-desc">Tipos de modelos, modelado contextual, estructural y de comportamiento. UML y sus 8 diagramas esenciales.</div>
+        <div class="week-footer">
+          <div class="week-files"><div class="dot"></div>2 imgs + 1 PDF + enlace</div>
+          <div class="week-arrow">→</div>
+        </div>
+      </a>
+      <a href="semana8.html" class="week-card">
+        <div class="week-top">
+          <div class="week-num-badge">Semana 8</div>
+          <div class="week-status status-done">✓ Entregado</div>
+        </div>
+        <div class="week-title">Proyecto 100% — Entrega Final</div>
+        <div class="week-desc">Entrega final del proyecto del curso con todas las historias de usuario implementadas.</div>
+        <div class="week-footer">
+          <div class="week-files"><div class="dot"></div>1 PDF + enlace</div>
+          <div class="week-arrow">→</div>
+        </div>
+      </a>
+    </div>
+    <div class="unit-nav">
+      <a href="unidad1.html" class="unav-btn">← Unidad I</a>
+      <a href="unidad3.html" class="unav-btn">Unidad III →</a>
+    </div>
+  </div>
+
+  <a href="portafolio.html" class="fab" title="Ir al inicio">
+    <span class="fab-tooltip">Volver al portafolio</span>🏠
+  </a>
+
+  <script>
+    const role=sessionStorage.getItem('role');
+    if(!role){sessionStorage.setItem('role','guest');sessionStorage.setItem('user','visitante');}
+    function toggleTheme(){const html=document.documentElement;const isDark=html.getAttribute('data-theme')==='dark';html.setAttribute('data-theme',isDark?'light':'dark');document.getElementById('themeBtn').textContent=isDark?'☀️':'🌙';localStorage.setItem('theme',isDark?'light':'dark');}
+    const saved=localStorage.getItem('theme');if(saved){document.documentElement.setAttribute('data-theme',saved);document.getElementById('themeBtn').textContent=saved==='light'?'☀️':'🌙';}
+  </script>
+</body>
+</html>

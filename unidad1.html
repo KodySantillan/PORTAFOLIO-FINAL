@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unidad I — Arquitectura de Software | Kody Santillan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#050810;--u1:#00e5ff;--u2:#7c3aed;--u3:#10b981;--u4:#f59e0b;--uc:#00e5ff;--text:#e2e8f0;--muted:#64748b;--border:rgba(0,229,255,0.11);--card-bg:rgba(13,17,23,0.72);--header-bg:rgba(5,8,16,0.9);}
+    [data-theme="light"]{--bg:#f0f4f8;--u1:#0284c7;--u2:#7c3aed;--u3:#059669;--u4:#d97706;--uc:#0284c7;--text:#1e293b;--muted:#64748b;--border:rgba(2,132,199,0.18);--card-bg:rgba(255,255,255,0.85);--header-bg:rgba(240,244,248,0.92);}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s;}
+    .bg-layer{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 70% 50% at 0% 0%,rgba(0,229,255,.07) 0%,transparent 60%),radial-gradient(ellipse 60% 60% at 100% 100%,rgba(124,58,237,.06) 0%,transparent 60%);}
+    [data-theme="light"] .bg-layer{opacity:.35;}
+    .grid-overlay{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(0,229,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.018) 1px,transparent 1px);background-size:60px 60px;}
+
+    /* NAV */
+    header{position:sticky;top:0;z-index:100;background:var(--header-bg);backdrop-filter:blur(22px);border-bottom:1px solid var(--border);padding:0 32px;}
+    nav{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:14px;height:58px;}
+    .back-btn{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--muted);font-size:.7rem;letter-spacing:.09em;transition:color .2s;}
+    .back-btn:hover{color:var(--uc);}
+    .nav-sep{color:var(--muted);opacity:.3;}
+    .nav-crumb{font-size:.7rem;color:var(--muted);}
+    .nav-crumb span{color:var(--uc);}
+    .nav-logo-img{width:30px;height:30px;border-radius:50%;object-fit:cover;border:1px solid var(--border);margin-left:auto;}
+    .nav-right{margin-left:8px;display:flex;align-items:center;gap:10px;}
+    .unit-badge{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;background:rgba(0,229,255,.07);border:1px solid rgba(0,229,255,.2);color:var(--uc);padding:4px 11px;border-radius:20px;}
+    .theme-btn{background:var(--card-bg);border:1px solid var(--border);border-radius:50px;padding:4px 11px;color:var(--muted);font-family:'Poppins',sans-serif;font-size:.65rem;cursor:pointer;transition:all .2s;}
+    .theme-btn:hover{color:var(--uc);}
+
+    /* HERO CON SVG */
+    .unit-hero{position:relative;z-index:1;overflow:hidden;background:var(--card-bg);border-bottom:1px solid var(--border);}
+    .unit-hero-inner{max-width:1100px;margin:0 auto;padding:56px 32px 48px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;}
+    .hero-text-block{flex:1;min-width:280px;}
+    .hero-breadcrumb{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .hero-breadcrumb span{color:var(--uc);}
+    .unit-tag-big{display:inline-block;font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:5px 14px;border-radius:6px;background:var(--uc);color:#000;margin-bottom:16px;}
+    .hero-title-big{font-family:'Poppins',sans-serif;font-size:clamp(1.8rem,4vw,2.9rem);font-weight:800;line-height:1.1;letter-spacing:-.03em;margin-bottom:14px;}
+    .hero-title-big .hl{color:var(--uc);}
+    .hero-desc-unit{font-size:.8rem;color:var(--muted);line-height:1.8;max-width:480px;margin-bottom:22px;}
+    .hero-chips{display:flex;flex-wrap:wrap;gap:8px;}
+    .hero-chip{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:4px 11px;border-radius:20px;border:1px solid rgba(0,229,255,.2);color:var(--uc);background:rgba(0,229,255,.05);}
+    .hero-svg-wrap{flex-shrink:0;width:280px;height:200px;position:relative;}
+    [data-theme="light"] .hero-svg-wrap svg .svg-line{stroke:rgba(2,132,199,0.25);}
+    [data-theme="light"] .hero-svg-wrap svg .svg-node{stroke:rgba(2,132,199,0.6);fill:rgba(2,132,199,0.08);}
+    [data-theme="light"] .hero-svg-wrap svg .svg-node-center{fill:rgba(2,132,199,0.5);}
+
+    /* SEMANAS GRID */
+    .unit-main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:44px 32px 80px;}
+    .section-header{display:flex;align-items:center;gap:12px;margin-bottom:22px;}
+    .section-label{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--uc);display:flex;align-items:center;gap:8px;}
+    .section-label::after{content:'';flex:0 0 24px;height:1px;background:var(--uc);opacity:.35;}
+    .weeks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:48px;}
+    .week-card{background:var(--card-bg);border:1px solid rgba(255,255,255,.055);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:11px;text-decoration:none;color:inherit;transition:all .3s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden;}
+    [data-theme="light"] .week-card{border-color:rgba(0,0,0,.08);}
+    .week-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--uc),transparent);opacity:0;transition:opacity .3s;}
+    .week-card:hover{transform:translateY(-4px);border-color:rgba(0,229,255,.18);box-shadow:0 18px 38px rgba(0,0,0,.2);}
+    .week-card:hover::before{opacity:1;}
+    .week-card.coming{opacity:.5;cursor:default;pointer-events:none;}
+    .coming-badge{position:absolute;top:12px;right:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:3px 9px;font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+    .week-top{display:flex;align-items:center;justify-content:space-between;}
+    .week-num-badge{font-size:.58rem;letter-spacing:.13em;text-transform:uppercase;padding:3px 9px;border-radius:20px;border:1px solid rgba(0,229,255,.25);background:rgba(0,229,255,.05);color:var(--uc);}
+    .week-status{font-size:.62rem;letter-spacing:.07em;}
+    .status-done{color:var(--u3);}
+    .status-soon{color:var(--muted);opacity:.6;}
+    .week-title{font-family:'Poppins',sans-serif;font-size:.92rem;font-weight:700;line-height:1.3;}
+    .week-desc{font-size:.7rem;color:var(--muted);line-height:1.6;}
+    .week-footer{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:11px;border-top:1px solid rgba(255,255,255,.04);}
+    [data-theme="light"] .week-footer{border-top-color:rgba(0,0,0,.06);}
+    .week-files{font-size:.62rem;color:var(--muted);display:flex;align-items:center;gap:6px;}
+    .dot{width:6px;height:6px;border-radius:50%;background:var(--u3);}
+    .dot.empty{background:var(--muted);opacity:.25;}
+    .week-arrow{font-size:.75rem;color:var(--muted);transition:transform .2s,color .2s;}
+    .week-card:hover .week-arrow{transform:translateX(4px);color:var(--uc);}
+
+    /* BACK NAV */
+    .unit-nav{display:flex;align-items:center;justify-content:space-between;padding-top:24px;border-top:1px solid var(--border);}
+    .unav-btn{display:flex;align-items:center;gap:8px;text-decoration:none;background:var(--card-bg);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:11px 18px;font-size:.72rem;color:var(--muted);transition:all .25s;}
+    [data-theme="light"] .unav-btn{border-color:rgba(0,0,0,.08);}
+    .unav-btn:hover{border-color:rgba(0,229,255,.25);color:var(--uc);}
+    .unav-btn.disabled{opacity:.3;pointer-events:none;}
+
+    /* FAB */
+    .fab{position:fixed;bottom:28px;right:28px;z-index:200;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--u2),#6d28d9);color:white;font-size:1.1rem;box-shadow:0 6px 22px rgba(124,58,237,.5);transition:all .3s;display:flex;align-items:center;justify-content:center;text-decoration:none;}
+    .fab:hover{transform:translateY(-4px) scale(1.08);box-shadow:0 10px 28px rgba(124,58,237,.6);}
+    .fab-tooltip{position:absolute;right:56px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:5px 12px;font-size:.65rem;color:var(--text);white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;font-family:'Poppins',sans-serif;}
+    .fab:hover .fab-tooltip{opacity:1;}
+
+    @media(max-width:640px){.unit-hero-inner{padding:40px 18px 32px;}.hero-svg-wrap{width:100%;height:150px;}.unit-main{padding:32px 18px 60px;}header{padding:0 18px;}}
+  </style>
+</head>
+<body>
+  <div class="bg-layer"></div>
+  <div class="grid-overlay"></div>
+
+  <header>
+    <nav>
+      <a href="portafolio.html" class="back-btn">← Volver</a>
+      <span class="nav-sep">/</span>
+      <span class="nav-crumb">Portafolio › <span>Unidad I</span></span>
+      <img src="logo.jpg" alt="UPLA" class="nav-logo-img">
+      <div class="nav-right">
+        <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+        <div class="unit-badge">Unidad I / IV</div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO CON ILUSTRACIÓN SVG -->
+  <div class="unit-hero">
+    <div class="unit-hero-inner">
+      <div class="hero-text-block">
+        <div class="hero-breadcrumb">Arquitectura de Software · <span>2026</span></div>
+        <div class="unit-tag-big">Unidad I</div>
+        <h1 class="hero-title-big"><span class="hl">Fundamentos</span><br>de Arquitectura</h1>
+        <p class="hero-desc-unit">Principios, patrones, estilos y responsabilidades que conforman la base del diseño de sistemas de software escalables y mantenibles.</p>
+        <div class="hero-chips">
+          <span class="hero-chip">Semanas 1–4</span>
+          <span class="hero-chip">4 Actividades</span>
+          <span class="hero-chip">Unidad I</span>
+        </div>
+      </div>
+      <!-- SVG abstracto tecnológico: nodos y conexiones tipo grafo arquitectónico -->
+      <div class="hero-svg-wrap">
+        <svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+          <defs>
+            <radialGradient id="glow1" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#00e5ff" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="blur1">
+              <feGaussianBlur stdDeviation="3"/>
+            </filter>
+          </defs>
+          <!-- Glow de fondo -->
+          <ellipse cx="140" cy="100" rx="120" ry="80" fill="url(#glow1)" filter="url(#blur1)"/>
+          <!-- Líneas de conexión -->
+          <line x1="140" y1="100" x2="60" y2="45" stroke="#00e5ff" stroke-width="1" stroke-opacity="0.3" class="svg-line"/>
+          <line x1="140" y1="100" x2="220" y2="45" stroke="#00e5ff" stroke-width="1" stroke-opacity="0.3" class="svg-line"/>
+          <line x1="140" y1="100" x2="40" y2="140" stroke="#00e5ff" stroke-width="1" stroke-opacity="0.3" class="svg-line"/>
+          <line x1="140" y1="100" x2="240" y2="140" stroke="#00e5ff" stroke-width="1" stroke-opacity="0.3" class="svg-line"/>
+          <line x1="140" y1="100" x2="140" y2="175" stroke="#00e5ff" stroke-width="1" stroke-opacity="0.2" class="svg-line"/>
+          <line x1="60" y1="45" x2="220" y2="45" stroke="#00e5ff" stroke-width="0.5" stroke-opacity="0.15" class="svg-line"/>
+          <line x1="40" y1="140" x2="240" y2="140" stroke="#00e5ff" stroke-width="0.5" stroke-opacity="0.15" class="svg-line"/>
+          <line x1="60" y1="45" x2="40" y2="140" stroke="#7c3aed" stroke-width="0.5" stroke-opacity="0.2" class="svg-line"/>
+          <line x1="220" y1="45" x2="240" y2="140" stroke="#7c3aed" stroke-width="0.5" stroke-opacity="0.2" class="svg-line"/>
+          <!-- Nodo central -->
+          <circle cx="140" cy="100" r="18" fill="rgba(0,229,255,0.08)" stroke="#00e5ff" stroke-width="1.5" class="svg-node">
+            <animate attributeName="r" values="18;21;18" dur="3s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="140" cy="100" r="7" fill="rgba(0,229,255,0.6)" class="svg-node-center"/>
+          <!-- Nodos secundarios -->
+          <circle cx="60" cy="45" r="10" fill="rgba(0,229,255,0.06)" stroke="#00e5ff" stroke-width="1" class="svg-node"/>
+          <circle cx="60" cy="45" r="4" fill="rgba(0,229,255,0.5)" class="svg-node-center"/>
+          <circle cx="220" cy="45" r="10" fill="rgba(0,229,255,0.06)" stroke="#00e5ff" stroke-width="1" class="svg-node"/>
+          <circle cx="220" cy="45" r="4" fill="rgba(0,229,255,0.5)" class="svg-node-center"/>
+          <circle cx="40" cy="140" r="9" fill="rgba(124,58,237,0.08)" stroke="#7c3aed" stroke-width="1" class="svg-node"/>
+          <circle cx="40" cy="140" r="3.5" fill="rgba(124,58,237,0.6)" class="svg-node-center"/>
+          <circle cx="240" cy="140" r="9" fill="rgba(124,58,237,0.08)" stroke="#7c3aed" stroke-width="1" class="svg-node"/>
+          <circle cx="240" cy="140" r="3.5" fill="rgba(124,58,237,0.6)" class="svg-node-center"/>
+          <circle cx="140" cy="175" r="8" fill="rgba(16,185,129,0.08)" stroke="#10b981" stroke-width="1" class="svg-node"/>
+          <circle cx="140" cy="175" r="3" fill="rgba(16,185,129,0.6)" class="svg-node-center"/>
+          <!-- Labels -->
+          <text x="140" y="90" text-anchor="middle" font-size="5.5" fill="#00e5ff" fill-opacity="0.7" font-family="monospace">CORE</text>
+          <text x="60" y="32" text-anchor="middle" font-size="4.5" fill="#00e5ff" fill-opacity="0.5" font-family="monospace">LAYERS</text>
+          <text x="220" y="32" text-anchor="middle" font-size="4.5" fill="#00e5ff" fill-opacity="0.5" font-family="monospace">EVENTS</text>
+          <text x="18" y="144" text-anchor="middle" font-size="4.5" fill="#7c3aed" fill-opacity="0.6" font-family="monospace">MSV</text>
+          <text x="264" y="144" text-anchor="middle" font-size="4.5" fill="#7c3aed" fill-opacity="0.6" font-family="monospace">MVC</text>
+          <text x="140" y="192" text-anchor="middle" font-size="4.5" fill="#10b981" fill-opacity="0.6" font-family="monospace">QUALITY</text>
+          <!-- Decoración: hexágonos pequeños -->
+          <polygon points="12,20 18,17 24,20 24,26 18,29 12,26" fill="none" stroke="#00e5ff" stroke-width="0.8" stroke-opacity="0.2"/>
+          <polygon points="255,8 261,5 267,8 267,14 261,17 255,14" fill="none" stroke="#7c3aed" stroke-width="0.8" stroke-opacity="0.2"/>
+          <polygon points="258,170 264,167 270,170 270,176 264,179 258,176" fill="none" stroke="#10b981" stroke-width="0.8" stroke-opacity="0.2"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEMANAS -->
+  <div class="unit-main">
+    <div class="section-header">
+      <div class="section-label">Semanas de la unidad</div>
+    </div>
+
+    <div class="weeks-grid">
+      <!-- Semana 1 -->
+      <a href="semana1.html" class="week-card">
+        <div class="week-top">
+          <div class="week-num-badge">Semana 1</div>
+          <div class="week-status status-done">✓ Entregado</div>
+        </div>
+        <div class="week-title">Introducción a la Arquitectura de Software</div>
+        <div class="week-desc">Principios, objetivos, estilos arquitectónicos y calidad del sistema.</div>
+        <div class="week-footer">
+          <div class="week-files"><div class="dot"></div>1 archivo</div>
+          <div class="week-arrow">→</div>
+        </div>
+      </a>
+
+      <!-- Semana 2 -->
+      <a href="semana2.html" class="week-card">
+        <div class="week-top">
+          <div class="week-num-badge">Semana 2</div>
+          <div class="week-status status-done">✓ Entregado</div>
+        </div>
+        <div class="week-title">Estándares Internacionales y Gobernanza</div>
+        <div class="week-desc">ISO/IEC 42010, gobernanza arquitectónica y marcos de referencia.</div>
+        <div class="week-footer">
+          <div class="week-files"><div class="dot"></div>2 archivos</div>
+          <div class="week-arrow">→</div>
+        </div>
+      </a>
+
+      <!-- Semana 3 -->
+      <a href="semana3.html" class="week-card">
+        <div class="week-top">
+          <div class="week-num-badge">Semana 3</div>
+          <div class="week-status status-done">✓ Entregado</div>
+        </div>
+        <div class="week-title">Fundamentos de Arquitectura de Software</div>
+        <div class="week-desc">Principios de diseño, estilos, patrones, modelado UML/C4 y estándares ISO.</div>
+        <div class="week-footer">
+          <div class="week-files"><div class="dot"></div>2 archivos</div>
+          <div class="week-arrow">→</div>
+        </div>
+      </a>
+
+      <!-- Semana 4 -->
+      <a href="semana4.html" class="week-card">
+        <div class="week-top">
+          <div class="week-num-badge">Semana 4</div>
+          <div class="week-status status-done">✓ Entregado</div>
+        </div>
+        <div class="week-title">Evaluación de la Arquitectura de Software</div>
+        <div class="week-desc">Escalabilidad, mantenibilidad, seguridad y métodos de evaluación arquitectónica.</div>
+        <div class="week-footer">
+          <div class="week-files"><div class="dot"></div>1 archivo</div>
+          <div class="week-arrow">→</div>
+        </div>
+      </a>
+    </div>
+
+    <!-- NAVEGACIÓN ENTRE UNIDADES -->
+    <div class="unit-nav">
+      <span class="unav-btn disabled">← Unidad anterior</span>
+      <a href="unidad2.html" class="unav-btn">Unidad II →</a>
+    </div>
+  </div>
+
+  <a href="portafolio.html" class="fab" title="Ir al inicio">
+    <span class="fab-tooltip">Volver al portafolio</span>🏠
+  </a>
+
+  <script>
+    const role=sessionStorage.getItem('role');
+    if(!role){sessionStorage.setItem('role','guest');sessionStorage.setItem('user','visitante');}
+    function toggleTheme(){const html=document.documentElement;const isDark=html.getAttribute('data-theme')==='dark';html.setAttribute('data-theme',isDark?'light':'dark');document.getElementById('themeBtn').textContent=isDark?'☀️':'🌙';localStorage.setItem('theme',isDark?'light':'dark');}
+    const saved=localStorage.getItem('theme');if(saved){document.documentElement.setAttribute('data-theme',saved);document.getElementById('themeBtn').textContent=saved==='light'?'☀️':'🌙';}
+  </script>
+</body>
+</html>

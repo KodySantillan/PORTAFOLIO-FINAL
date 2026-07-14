@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unidad IV — Arquitectura de Software | Kody Santillan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#050810;--u1:#00e5ff;--u2:#7c3aed;--u3:#10b981;--u4:#f59e0b;--uc:#f59e0b;--text:#e2e8f0;--muted:#64748b;--border:rgba(245,158,11,0.13);--card-bg:rgba(13,17,23,0.72);--header-bg:rgba(5,8,16,0.9);}
+    [data-theme="light"]{--bg:#f0f4f8;--u1:#0284c7;--u2:#7c3aed;--u3:#059669;--u4:#d97706;--uc:#d97706;--text:#1e293b;--muted:#64748b;--border:rgba(217,119,6,0.2);--card-bg:rgba(255,255,255,0.85);--header-bg:rgba(240,244,248,0.92);}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s;}
+    .bg-layer{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 70% 50% at 0% 0%,rgba(245,158,11,.06) 0%,transparent 60%),radial-gradient(ellipse 60% 60% at 100% 100%,rgba(124,58,237,.05) 0%,transparent 60%);}
+    [data-theme="light"] .bg-layer{opacity:.35;}
+    .grid-overlay{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(245,158,11,.014) 1px,transparent 1px),linear-gradient(90deg,rgba(245,158,11,.014) 1px,transparent 1px);background-size:60px 60px;}
+    header{position:sticky;top:0;z-index:100;background:var(--header-bg);backdrop-filter:blur(22px);border-bottom:1px solid var(--border);padding:0 32px;}
+    nav{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:14px;height:58px;}
+    .back-btn{display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--muted);font-size:.7rem;letter-spacing:.09em;transition:color .2s;}
+    .back-btn:hover{color:var(--uc);}
+    .nav-sep{color:var(--muted);opacity:.3;}
+    .nav-crumb{font-size:.7rem;color:var(--muted);}
+    .nav-crumb span{color:var(--uc);}
+    .nav-logo-img{width:30px;height:30px;border-radius:50%;object-fit:cover;border:1px solid var(--border);margin-left:auto;}
+    .nav-right{margin-left:8px;display:flex;align-items:center;gap:10px;}
+    .unit-badge{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.25);color:var(--uc);padding:4px 11px;border-radius:20px;}
+    .theme-btn{background:var(--card-bg);border:1px solid var(--border);border-radius:50px;padding:4px 11px;color:var(--muted);font-family:'Poppins',sans-serif;font-size:.65rem;cursor:pointer;transition:all .2s;}
+    .theme-btn:hover{color:var(--uc);}
+    .unit-hero{position:relative;z-index:1;overflow:hidden;background:var(--card-bg);border-bottom:1px solid var(--border);}
+    .unit-hero-inner{max-width:1100px;margin:0 auto;padding:56px 32px 48px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;}
+    .hero-text-block{flex:1;min-width:280px;}
+    .hero-breadcrumb{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;}
+    .hero-breadcrumb span{color:var(--uc);}
+    .unit-tag-big{display:inline-block;font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:5px 14px;border-radius:6px;background:var(--uc);color:#000;margin-bottom:16px;}
+    .hero-title-big{font-family:'Poppins',sans-serif;font-size:clamp(1.8rem,4vw,2.9rem);font-weight:800;line-height:1.1;letter-spacing:-.03em;margin-bottom:14px;}
+    .hero-title-big .hl{color:var(--uc);}
+    .hero-desc-unit{font-size:.8rem;color:var(--muted);line-height:1.8;max-width:480px;margin-bottom:22px;}
+    .hero-chips{display:flex;flex-wrap:wrap;gap:8px;}
+    .hero-chip{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:4px 11px;border-radius:20px;border:1px solid rgba(245,158,11,.25);color:var(--uc);background:rgba(245,158,11,.06);}
+    .hero-svg-wrap{flex-shrink:0;width:280px;height:200px;}
+    .unit-main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:44px 32px 80px;}
+    .section-label{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--uc);display:flex;align-items:center;gap:8px;margin-bottom:22px;}
+    .section-label::after{content:'';flex:0 0 24px;height:1px;background:var(--uc);opacity:.35;}
+    .weeks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:48px;}
+    .week-card{background:var(--card-bg);border:1px solid rgba(255,255,255,.055);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:11px;text-decoration:none;color:inherit;transition:all .3s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden;}
+    [data-theme="light"] .week-card{border-color:rgba(0,0,0,.08);}
+    .week-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--uc),transparent);opacity:0;transition:opacity .3s;}
+    .week-card:hover{transform:translateY(-4px);border-color:rgba(245,158,11,.25);box-shadow:0 18px 38px rgba(0,0,0,.2);}
+    .week-card:hover::before{opacity:1;}
+    .week-card.coming{opacity:.5;cursor:default;pointer-events:none;}
+    .coming-badge{position:absolute;top:12px;right:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:3px 9px;font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+    .week-top{display:flex;align-items:center;justify-content:space-between;}
+    .week-num-badge{font-size:.58rem;letter-spacing:.13em;text-transform:uppercase;padding:3px 9px;border-radius:20px;border:1px solid rgba(245,158,11,.3);background:rgba(245,158,11,.06);color:var(--uc);}
+    .week-status{font-size:.62rem;letter-spacing:.07em;}
+    .status-soon{color:var(--muted);opacity:.6;}
+    .week-title{font-family:'Poppins',sans-serif;font-size:.92rem;font-weight:700;line-height:1.3;}
+    .week-desc{font-size:.7rem;color:var(--muted);line-height:1.6;}
+    .week-footer{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:11px;border-top:1px solid rgba(255,255,255,.04);}
+    [data-theme="light"] .week-footer{border-top-color:rgba(0,0,0,.06);}
+    .week-files{font-size:.62rem;color:var(--muted);display:flex;align-items:center;gap:6px;}
+    .dot.empty{width:6px;height:6px;border-radius:50%;background:var(--muted);opacity:.25;}
+    .week-arrow{font-size:.75rem;color:var(--muted);transition:transform .2s,color .2s;}
+    .week-card:hover .week-arrow{transform:translateX(4px);color:var(--uc);}
+    .reflexion-box{background:var(--card-bg);border:1px solid rgba(245,158,11,.2);border-radius:16px;padding:32px;margin-bottom:40px;position:relative;overflow:hidden;}
+    .reflexion-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--uc),transparent);}
+    .reflexion-title{font-family:'Poppins',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:10px;}
+    .reflexion-title .hl{color:var(--uc);}
+    .reflexion-sub{font-size:.68rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:20px;}
+    .reflexion-text{font-size:.82rem;color:rgba(226,232,240,.85);line-height:1.9;margin-bottom:14px;}
+    [data-theme="light"] .reflexion-text{color:var(--text);}
+    .reflexion-text:last-of-type{margin-bottom:22px;}
+    .logros-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;}
+    .logro-chip{display:flex;align-items:flex-start;gap:9px;background:rgba(245,158,11,.05);border:1px solid rgba(245,158,11,.15);border-radius:10px;padding:12px 14px;font-size:.72rem;color:var(--muted);line-height:1.5;}
+    .logro-chip strong{color:var(--text);display:block;font-size:.74rem;margin-bottom:2px;}
+    .logro-chip .lc-ico{color:var(--uc);font-size:.85rem;flex-shrink:0;}
+    .unit-nav{display:flex;align-items:center;justify-content:space-between;padding-top:24px;border-top:1px solid var(--border);}
+    .unav-btn{display:flex;align-items:center;gap:8px;text-decoration:none;background:var(--card-bg);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:11px 18px;font-size:.72rem;color:var(--muted);transition:all .25s;}
+    [data-theme="light"] .unav-btn{border-color:rgba(0,0,0,.08);}
+    .unav-btn:hover{border-color:rgba(245,158,11,.3);color:var(--uc);}
+    .unav-btn.disabled{opacity:.35;pointer-events:none;}
+    .fab{position:fixed;bottom:28px;right:28px;z-index:200;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--u2),#6d28d9);color:white;font-size:1.1rem;box-shadow:0 6px 22px rgba(124,58,237,.5);transition:all .3s;display:flex;align-items:center;justify-content:center;text-decoration:none;}
+    .fab:hover{transform:translateY(-4px) scale(1.08);}
+    .fab-tooltip{position:absolute;right:56px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:5px 12px;font-size:.65rem;color:var(--text);white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;font-family:'Poppins',sans-serif;}
+    .fab:hover .fab-tooltip{opacity:1;}
+    @media(max-width:640px){.unit-hero-inner{padding:40px 18px 32px;}.hero-svg-wrap{width:100%;height:150px;}.unit-main{padding:32px 18px 60px;}header{padding:0 18px;}}
+  </style>
+</head>
+<body>
+  <div class="bg-layer"></div>
+  <div class="grid-overlay"></div>
+  <header>
+    <nav>
+      <a href="portafolio.html" class="back-btn">← Volver</a>
+      <span class="nav-sep">/</span>
+      <span class="nav-crumb">Portafolio › <span>Unidad IV</span></span>
+      <img src="logo.jpg" alt="UPLA" class="nav-logo-img">
+      <div class="nav-right">
+        <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+        <div class="unit-badge">Unidad IV / IV</div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO SVG UNIDAD IV: Nube + microservicios -->
+  <div class="unit-hero">
+    <div class="unit-hero-inner">
+      <div class="hero-text-block">
+        <div class="hero-breadcrumb">Arquitectura de Software · <span>2026</span></div>
+        <div class="unit-tag-big">Unidad IV</div>
+        <h1 class="hero-title-big"><span class="hl">Arquitecturas</span><br>Emergentes</h1>
+        <p class="hero-desc-unit">Microservicios, arquitecturas en la nube, DevOps, CI/CD y las tendencias que definen el software moderno.</p>
+        <div class="hero-chips">
+          <span class="hero-chip">Semanas 13–16</span>
+          <span class="hero-chip">4 Actividades</span>
+          <span class="hero-chip">Unidad IV</span>
+        </div>
+      </div>
+      <!-- SVG: Microservicios en nube - nodos distribuidos con contenedores -->
+      <div class="hero-svg-wrap">
+        <svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+          <defs>
+            <radialGradient id="glow4" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.2"/>
+              <stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="blur4"><feGaussianBlur stdDeviation="4"/></filter>
+          </defs>
+          <ellipse cx="140" cy="100" rx="115" ry="75" fill="url(#glow4)" filter="url(#blur4)"/>
+          <!-- Nube central (API Gateway) -->
+          <rect x="110" y="88" width="60" height="24" rx="5" fill="rgba(245,158,11,0.1)" stroke="#f59e0b" stroke-width="1.2" stroke-opacity="0.7"/>
+          <text x="140" y="104" text-anchor="middle" font-size="5" fill="#f59e0b" fill-opacity="0.9" font-family="monospace">API GATEWAY</text>
+          <!-- Microservicio 1: Auth -->
+          <rect x="20" y="38" width="52" height="22" rx="4" fill="rgba(245,158,11,0.06)" stroke="#f59e0b" stroke-width="0.9" stroke-opacity="0.5"/>
+          <text x="46" y="53" text-anchor="middle" font-size="4.5" fill="#f59e0b" fill-opacity="0.7" font-family="monospace">AUTH SVC</text>
+          <!-- Microservicio 2: Users -->
+          <rect x="114" y="22" width="52" height="22" rx="4" fill="rgba(245,158,11,0.06)" stroke="#f59e0b" stroke-width="0.9" stroke-opacity="0.5"/>
+          <text x="140" y="37" text-anchor="middle" font-size="4.5" fill="#f59e0b" fill-opacity="0.7" font-family="monospace">USER SVC</text>
+          <!-- Microservicio 3: Orders -->
+          <rect x="208" y="38" width="52" height="22" rx="4" fill="rgba(245,158,11,0.06)" stroke="#f59e0b" stroke-width="0.9" stroke-opacity="0.5"/>
+          <text x="234" y="53" text-anchor="middle" font-size="4.5" fill="#f59e0b" fill-opacity="0.7" font-family="monospace">ORDER SVC</text>
+          <!-- Microservicio 4: Notifications -->
+          <rect x="20" y="140" width="62" height="22" rx="4" fill="rgba(0,229,255,0.06)" stroke="#00e5ff" stroke-width="0.9" stroke-opacity="0.4"/>
+          <text x="51" y="155" text-anchor="middle" font-size="4.5" fill="#00e5ff" fill-opacity="0.6" font-family="monospace">NOTIFY SVC</text>
+          <!-- Microservicio 5: DB -->
+          <rect x="198" y="140" width="62" height="22" rx="4" fill="rgba(16,185,129,0.06)" stroke="#10b981" stroke-width="0.9" stroke-opacity="0.4"/>
+          <text x="229" y="155" text-anchor="middle" font-size="4.5" fill="#10b981" fill-opacity="0.6" font-family="monospace">DATA SVC</text>
+          <!-- Conexiones -->
+          <line x1="110" y1="98" x2="72" y2="60" stroke="#f59e0b" stroke-width="0.8" stroke-opacity="0.4" stroke-dasharray="3,2"/>
+          <line x1="140" y1="88" x2="140" y2="44" stroke="#f59e0b" stroke-width="0.8" stroke-opacity="0.4" stroke-dasharray="3,2"/>
+          <line x1="170" y1="98" x2="208" y2="60" stroke="#f59e0b" stroke-width="0.8" stroke-opacity="0.4" stroke-dasharray="3,2"/>
+          <line x1="120" y1="112" x2="82" y2="140" stroke="#00e5ff" stroke-width="0.7" stroke-opacity="0.3" stroke-dasharray="3,2"/>
+          <line x1="160" y1="112" x2="198" y2="140" stroke="#10b981" stroke-width="0.7" stroke-opacity="0.3" stroke-dasharray="3,2"/>
+          <!-- Message bus horizontal -->
+          <line x1="30" y1="120" x2="250" y2="120" stroke="#f59e0b" stroke-width="0.6" stroke-opacity="0.2" stroke-dasharray="4,3"/>
+          <text x="140" y="118" text-anchor="middle" font-size="4" fill="#f59e0b" fill-opacity="0.35" font-family="monospace">MESSAGE BUS</text>
+          <!-- Animación de "paquete" viajando -->
+          <circle r="2.5" fill="#f59e0b" fill-opacity="0.8">
+            <animateMotion dur="3s" repeatCount="indefinite">
+              <mpath xlink:href="#bus-path"/>
+            </animateMotion>
+          </circle>
+          <path id="bus-path" d="M 30,120 L 250,120" fill="none"/>
+          <!-- Decoración esquinas -->
+          <polygon points="4,8 10,4 16,8 16,16 10,20 4,16" fill="none" stroke="#f59e0b" stroke-width="0.8" stroke-opacity="0.25"/>
+          <polygon points="264,8 270,4 276,8 276,16 270,20 264,16" fill="none" stroke="#f59e0b" stroke-width="0.8" stroke-opacity="0.25"/>
+          <circle cx="20" cy="180" r="2.5" fill="#7c3aed" fill-opacity="0.4">
+            <animate attributeName="opacity" values="0.4;0.9;0.4" dur="2.2s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="260" cy="180" r="2" fill="#10b981" fill-opacity="0.4">
+            <animate attributeName="opacity" values="0.4;0.9;0.4" dur="3s" repeatCount="indefinite"/>
+          </circle>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="unit-main">
+    <div class="section-label">Semanas de la unidad</div>
+    <div class="weeks-grid">
+      <a href="semana13.html" class="week-card">
+        <div class="week-top">
+          <div class="week-num-badge">Semana 13</div>
+          <div class="week-status status-done">✓ Entregado</div>
+        </div>
+        <div class="week-title">Fundamentos de Frameworks de Arquitectura</div>
+        <div class="week-desc">Diseño APIs Design-First, GraphQL, versionado de interfaces y resiliencia con Resilience4j.</div>
+        <div class="week-footer"><div class="week-files"><div class="dot"></div>1 imagen</div><div class="week-arrow">→</div></div>
+      </a>
+      <a href="semana14.html" class="week-card">
+        <div class="week-top">
+          <div class="week-num-badge">Semana 14</div>
+          <div class="week-status status-done">✓ Entregado</div>
+        </div>
+        <div class="week-title">Normas y Buenas Prácticas en Arquitectura</div>
+        <div class="week-desc">ISO/IEC 25010, 12207, ISO 9001, ISO/IEC 27001, IEEE 42010 y principios SOLID, DRY, KISS, YAGNI.</div>
+        <div class="week-footer"><div class="week-files"><div class="dot"></div>1 imagen</div><div class="week-arrow">→</div></div>
+      </a>
+      <a href="semana15.html" class="week-card">
+        <div class="week-top">
+          <div class="week-num-badge">Semana 15</div>
+          <div class="week-status status-done">✓ Entregado</div>
+        </div>
+        <div class="week-title">Implementación con Frameworks</div>
+        <div class="week-desc">Spring Boot, capas arquitectónicas, patrones MVC, Repository, Factory, Singleton y Observer.</div>
+        <div class="week-footer"><div class="week-files"><div class="dot"></div>1 imagen</div><div class="week-arrow">→</div></div>
+      </a>
+      <a href="semana16.html" class="week-card">
+        <div class="week-top">
+          <div class="week-num-badge">Semana 16</div>
+          <div class="week-status status-done">✓ Entregado</div>
+        </div>
+        <div class="week-title">Evaluación y Optimización — Informe Final</div>
+        <div class="week-desc">Criterios de calidad, pruebas, métricas, estrategias de optimización e Informe Final del curso.</div>
+        <div class="week-footer"><div class="week-files"><div class="dot"></div>1 imagen + PDF</div><div class="week-arrow">→</div></div>
+      </a>
+    </div>
+
+    <div class="reflexion-box">
+      <div class="reflexion-sub">Cierre del curso · 16 semanas</div>
+      <h2 class="reflexion-title"><span class="hl">Reflexión final</span> — qué aprendí y qué construí</h2>
+      <p class="reflexion-text">Empecé este curso con una idea general de lo que era "arquitectura de software", pero durante las 16 semanas entendí que no se trata solo de elegir un patrón o dibujar un diagrama: es tomar decisiones que van a sostener (o hundir) un sistema real a lo largo del tiempo. Ese cambio de mirada se nota claro si comparo mi mapa conceptual de la Semana 1 con el informe final de la Semana 16.</p>
+      <p class="reflexion-text">Todo el curso lo trabajé sobre un mismo hilo conductor: el <strong>Sistema de Certificados EPISC-UPLA</strong>. En la Unidad I definí los fundamentos, estándares y criterios de evaluación arquitectónica que usé como base para justificar cada decisión posterior. En la Unidad II apliqué Programación Orientada a Objetos e ingeniería de requerimientos para modelar el sistema con UML y entregar el proyecto funcional al 100%. En la Unidad III pasé a arquitectura distribuida: patrones con Spring Boot, contratos de API, versionado y resiliencia con Resilience4j. Y en esta Unidad IV cerré con frameworks, normas internacionales (ISO/IEC 25010, 27001, IEEE 42010) y la evaluación final de calidad del sistema.</p>
+      <p class="reflexion-text">Lo que más me costó fue la Unidad III: entender que "resiliencia" no es solo manejar errores, sino diseñar el sistema asumiendo que algo va a fallar. Y lo que más disfruté fue ver cómo las decisiones tempranas (Unidad I) terminaron sosteniendo todo lo que construí después — ahí es donde realmente entendí para qué sirve la arquitectura de software.</p>
+      <div class="logros-grid">
+        <div class="logro-chip"><span class="lc-ico">▸</span><div><strong>Fundamentos sólidos</strong>Estándares, gobernanza y evaluación arquitectónica aplicados desde la Semana 1.</div></div>
+        <div class="logro-chip"><span class="lc-ico">▸</span><div><strong>Proyecto real funcional</strong>Sistema de Certificados EPISC-UPLA modelado, construido y documentado al 100%.</div></div>
+        <div class="logro-chip"><span class="lc-ico">▸</span><div><strong>Arquitectura distribuida</strong>APIs Design-First, versionado, GraphQL y patrones de resiliencia con Resilience4j.</div></div>
+        <div class="logro-chip"><span class="lc-ico">▸</span><div><strong>Buenas prácticas</strong>SOLID, DRY, KISS, YAGNI y normas ISO/IEEE aplicadas de forma consciente, no memorizada.</div></div>
+      </div>
+    </div>
+
+    <div class="unit-nav">
+      <a href="unidad3.html" class="unav-btn">← Unidad III</a>
+      <span class="unav-btn disabled">Fin del curso ✓</span>
+    </div>
+  </div>
+
+  <a href="portafolio.html" class="fab" title="Ir al inicio">
+    <span class="fab-tooltip">Volver al portafolio</span>🏠
+  </a>
+
+  <script>
+    const role=sessionStorage.getItem('role');
+    if(!role){sessionStorage.setItem('role','guest');sessionStorage.setItem('user','visitante');}
+    function toggleTheme(){const html=document.documentElement;const isDark=html.getAttribute('data-theme')==='dark';html.setAttribute('data-theme',isDark?'light':'dark');document.getElementById('themeBtn').textContent=isDark?'☀️':'🌙';localStorage.setItem('theme',isDark?'light':'dark');}
+    const saved=localStorage.getItem('theme');if(saved){document.documentElement.setAttribute('data-theme',saved);document.getElementById('themeBtn').textContent=saved==='light'?'☀️':'🌙';}
+  </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kody Santillan | Arquitectura de Software</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#050810;--accent:#00e5ff;--accent2:#7c3aed;--accent3:#10b981;--text:#e2e8f0;--muted:#64748b;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+    canvas{position:fixed;inset:0;z-index:0;opacity:0.35;}
+    .grid-overlay{position:fixed;inset:0;z-index:1;pointer-events:none;background-image:linear-gradient(rgba(0,229,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,0.025) 1px,transparent 1px);background-size:60px 60px;}
+    .orb{position:fixed;border-radius:50%;filter:blur(110px);pointer-events:none;z-index:1;}
+    .orb-1{width:450px;height:450px;background:rgba(124,58,237,0.18);top:-80px;left:-80px;animation:drift1 14s ease-in-out infinite;}
+    .orb-2{width:380px;height:380px;background:rgba(0,229,255,0.10);bottom:-80px;right:-80px;animation:drift2 17s ease-in-out infinite;}
+    @keyframes drift1{0%,100%{transform:translate(0,0)}50%{transform:translate(50px,35px)}}
+    @keyframes drift2{0%,100%{transform:translate(0,0)}50%{transform:translate(-35px,-50px)}}
+    .splash{position:relative;z-index:10;text-align:center;}
+    .logo-img{width:90px;height:90px;border-radius:50%;object-fit:cover;border:2px solid rgba(0,229,255,0.3);box-shadow:0 0 36px rgba(0,229,255,0.18);margin-bottom:24px;animation:fadeIn 0.6s ease both;}
+    .title{font-family:'Poppins',sans-serif;font-size:2.4rem;font-weight:800;letter-spacing:-.03em;animation:fadeIn 0.7s 0.1s ease both;opacity:0;}
+    .title span{background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .sub{font-size:.75rem;color:var(--muted);letter-spacing:.18em;text-transform:uppercase;margin-top:8px;animation:fadeIn 0.7s 0.2s ease both;opacity:0;}
+    .loader{margin-top:36px;display:flex;flex-direction:column;align-items:center;gap:12px;animation:fadeIn 0.7s 0.4s ease both;opacity:0;}
+    .bar-track{width:220px;height:3px;background:rgba(255,255,255,.06);border-radius:50px;overflow:hidden;}
+    .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:50px;animation:loadBar 1.2s 0.5s ease forwards;}
+    @keyframes loadBar{to{width:100%}}
+    .loader-text{font-size:.62rem;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  </style>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+  <div class="grid-overlay"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <div class="splash">
+    <img src="logo.jpg" alt="UPLA" class="logo-img">
+    <div class="title"><span>Kody Santillan</span></div>
+    <div class="sub">Arquitectura de Software · UPLA 2026</div>
+    <div class="loader">
+      <div class="bar-track"><div class="bar-fill"></div></div>
+      <div class="loader-text">Cargando portafolio...</div>
+    </div>
+  </div>
+
+  <script>
+    // Canvas animado
+    const canvas=document.getElementById('bg'),ctx=canvas.getContext('2d');
+    let W,H,pts=[];
+    const resize=()=>{W=canvas.width=innerWidth;H=canvas.height=innerHeight;};
+    resize();window.addEventListener('resize',resize);
+    for(let i=0;i<70;i++)pts.push({x:Math.random()*2000,y:Math.random()*1200,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,r:Math.random()*1.4+.4});
+    function draw(){ctx.clearRect(0,0,W,H);pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(0,229,255,0.65)';ctx.fill();});pts.forEach((a,i)=>pts.slice(i+1).forEach(b=>{const d=Math.hypot(a.x-b.x,a.y-b.y);if(d<120){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle=`rgba(0,229,255,${0.14*(1-d/120)})`;ctx.lineWidth=.5;ctx.stroke();}}));requestAnimationFrame(draw);}
+    draw();
+
+    // Si no hay sesión, asignar visitante por defecto y redirigir
+    if(!sessionStorage.getItem('role')){
+      sessionStorage.setItem('role','guest');
+      sessionStorage.setItem('user','visitante');
+    }
+    setTimeout(()=>location.href='portafolio.html', 1800);
+  </script>
+</body>
+</html>
